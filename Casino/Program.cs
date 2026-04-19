@@ -3,79 +3,21 @@ using static System.Formats.Asn1.AsnWriter;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-//Console.WriteLine($"╔════════╗\n║⚡WILD⚡║\n║⚡WILD⚡║\n║⚡WILD⚡║\n╚════════╝");
 //string cd_gold_disk = "📀";
 int matrix_width = 58;
-int matrix_hight = 19;
+int matrix_hight = 23;
 int matrix_square = matrix_width * matrix_hight;
 string[] Matrix = new string[matrix_square];
 string[] Matrix_Color = new string[matrix_square];
-void Matrix_Font()
-{
-    for (int i = 0; i < Matrix.Length; i++)
-    {
-        Matrix[i] = "│";
-    }
-    Matrix[0] = "╔";
-    Matrix[Matrix.Length / matrix_hight - 1] = "╗";
-    Matrix[Matrix.Length - matrix_width] = "╚";
-    Matrix[Matrix.Length - 1] = "╝";
-    for (int i = 1; i < matrix_width - 1; i++)
-    {
-        Matrix[i] = "═";
-    }
-    for (int i = Matrix.Length - matrix_width + 1; i < Matrix.Length - 1; i++)
-    {
-        Matrix[i] = "═";
-    }
-    for (int i = matrix_width; i < Matrix.Length - matrix_width; )
-    {
-        Matrix[i] = "║";
-        i = i + matrix_width;
-    }
-    for (int i = matrix_width * 2 - 1; i < Matrix.Length - matrix_width; )
-    {
-        Matrix[i] = "║";
-        i = i + matrix_width;
-    }
-}
-Matrix_Font();
-
-void Matrix_Font_Color()
-{
-    string Matrix_Border_Color = "Magenta";
-    for (int i = 0; i < Matrix_Color.Length; i++)
-    {
-        Matrix_Color[i] = "DarkMagenta";
-    }
-    Matrix_Color[0] = Matrix_Border_Color;
-    Matrix_Color[Matrix_Color.Length / matrix_hight - 1] = Matrix_Border_Color;
-    Matrix_Color[Matrix_Color.Length - matrix_width] = Matrix_Border_Color;
-    Matrix_Color[Matrix_Color.Length - 1] = Matrix_Border_Color;
-    for (int i = 1; i < matrix_width - 1; i++)
-    {
-        Matrix_Color[i] = Matrix_Border_Color;
-    }
-    for (int i = Matrix_Color.Length - matrix_width + 1; i < Matrix_Color.Length - 1; i++)
-    {
-        Matrix_Color[i] = Matrix_Border_Color;
-    }
-    for (int i = matrix_width; i < Matrix_Color.Length - matrix_width; )
-    {
-        Matrix_Color[i] = Matrix_Border_Color;
-        i = i + matrix_width;
-    }
-    for (int i = matrix_width * 2 - 1; i < Matrix_Color.Length - matrix_width; )
-    {
-        Matrix_Color[i] = Matrix_Border_Color;
-        i = i + matrix_width;
-    }
-}
-Matrix_Font_Color();
 
 string[] Symbols = { "🇯", "🇶", "🇰", "🇹", "🥝", "🍋", "🍒", "💎", "🔔", "⚡" };
 string[] Wild_Symbol = { "", "⚡", "W", "I", "L", "D", "⚡", "" };
 Random rand = new Random();
+
+for (int i = 0; i < matrix_square; i++)
+{
+    Matrix[i] = ".";
+}
 
 Slot_Characteristics Slot_Graphics(Slot_Characteristics Slot_With_Symbol)
 {
@@ -91,7 +33,7 @@ Slot_Characteristics Slot_Graphics(Slot_Characteristics Slot_With_Symbol)
     Slot_With_Symbol.Slot_X = new int[slot_square];
     Slot_With_Symbol.Slot_Y = new int[slot_square];
     int all_slots_x = 2;
-    int all_slots_y = 2;
+    int all_slots_y = 4;
 
     for (int i = 0; i < slot_hight; i++)
     {
@@ -203,6 +145,159 @@ Slot_Characteristics Slot_Graphics(Slot_Characteristics Slot_With_Symbol)
 
     return Slot_With_Symbol;
 }
+Frame_Characteristics Frame_Graphics(Frame_Characteristics Frame_With_Value)
+{
+    Frame_With_Value.In_Frame_Text = new char[Frame_With_Value.frame_width - 2];
+
+    int frame_square = Frame_With_Value.frame_width * Frame_With_Value.frame_hight;
+    Frame_With_Value.Frame_Graphic_Elements = new string[frame_square];
+    for (int i = 0; i < Frame_With_Value.Frame_Graphic_Elements.Length; i++)
+    {
+        Frame_With_Value.Frame_Graphic_Elements[i] = " ";
+    }
+    Frame_With_Value.Frame_Graphic_Elements[0] = "╔";
+    Frame_With_Value.Frame_Graphic_Elements[
+        Frame_With_Value.Frame_Graphic_Elements.Length / Frame_With_Value.frame_hight - 1
+    ] = "╗";
+    Frame_With_Value.Frame_Graphic_Elements[
+        Frame_With_Value.Frame_Graphic_Elements.Length - Frame_With_Value.frame_width
+    ] = "╚";
+    Frame_With_Value.Frame_Graphic_Elements[Frame_With_Value.Frame_Graphic_Elements.Length - 1] =
+        "╝";
+    for (int i = 1; i < Frame_With_Value.frame_width - 1; i++)
+    {
+        Frame_With_Value.Frame_Graphic_Elements[i] = "═";
+    }
+    for (
+        int i = Frame_With_Value.Frame_Graphic_Elements.Length - Frame_With_Value.frame_width + 1;
+        i < Frame_With_Value.Frame_Graphic_Elements.Length - 1;
+        i++
+    )
+    {
+        Frame_With_Value.Frame_Graphic_Elements[i] = "═";
+    }
+    for (
+        int i = Frame_With_Value.frame_width;
+        i < Frame_With_Value.Frame_Graphic_Elements.Length - Frame_With_Value.frame_width;
+
+    )
+    {
+        Frame_With_Value.Frame_Graphic_Elements[i] = "║";
+        i = i + Frame_With_Value.frame_width;
+    }
+    for (
+        int i = Frame_With_Value.frame_width * 2 - 1;
+        i < Frame_With_Value.Frame_Graphic_Elements.Length - Frame_With_Value.frame_width;
+
+    )
+    {
+        Frame_With_Value.Frame_Graphic_Elements[i] = "║";
+        i = i + Frame_With_Value.frame_width;
+    }
+
+    for (int i = 0; i < Frame_With_Value.Frame_Graphic_Elements.Length; i++)
+    {
+        int x =
+            i
+            - (int)(i / Frame_With_Value.frame_width) * Frame_With_Value.frame_width
+            + Frame_With_Value.frame_x0;
+        int y = (int)(i / Frame_With_Value.frame_width) + Frame_With_Value.frame_y0;
+        if (Frame_With_Value.Frame_Graphic_Elements[i] != " ")
+        {
+            Matrix[matrix_width * y + x] = Graphic_Elements_Addition(
+                (Matrix[matrix_width * y + x]),
+                (Frame_With_Value.Frame_Graphic_Elements[i])
+            );
+        }
+    }
+    return Frame_With_Value;
+}
+string Graphic_Elements_Addition(string input_1, string input_2)
+{
+    //0b(right)(up)(left)(down)
+    //0b0000
+    //GE_To_BN => Graphic Element To Binary Number
+    Dictionary<string, int> GE_To_BN =
+        new()
+        {
+            { "╚", 0b1100 },
+            { "╝", 0b0110 },
+            { "╗", 0b0011 },
+            { "╔", 0b1001 },
+            { "╩", 0b1110 },
+            { "╦", 0b1011 },
+            { "╠", 0b1101 },
+            { "╣", 0b0111 },
+            { "╬", 0b1111 },
+            { "═", 0b1010 },
+            { "║", 0b0101 }
+        };
+    Dictionary<int, string> BN_To_GE = GE_To_BN.ToDictionary(i => i.Value, i => i.Key);
+    string Addition(string existing_symbol, string additional_symbol)
+    {
+        if (GE_To_BN.ContainsKey(existing_symbol) && GE_To_BN.ContainsKey(additional_symbol))
+        {
+            int binary_resoult = GE_To_BN[existing_symbol] | GE_To_BN[additional_symbol];
+            return BN_To_GE[binary_resoult];
+        }
+        else
+        {
+            return additional_symbol;
+        }
+    }
+    return Convert.ToString(Addition(input_1, input_2));
+}
+void Background_Layer_1()
+{
+    for (int i = 0; i < matrix_square; i++)
+    {
+        Matrix_Color[i] = "Magenta";
+    }
+    for (int i = 3 * matrix_width; i < 20 * matrix_width; i++)
+    {
+        Matrix[i] = "│";
+    }
+}
+
+void All_Frames()
+{
+    var Frame_1 = new Frame_Characteristics
+    {
+        frame_x0 = 0,
+        frame_y0 = 2,
+        frame_width = 58,
+        frame_hight = 19,
+    };
+    Frame_1 = Frame_Graphics(Frame_1);
+
+    var Frame_2 = new Frame_Characteristics
+    {
+        frame_x0 = 34,
+        frame_y0 = 0,
+        frame_width = 24,
+        frame_hight = 3,
+    };
+    Frame_2 = Frame_Graphics(Frame_2);
+
+    var Frame_3 = new Frame_Characteristics
+    {
+        frame_x0 = 34,
+        frame_y0 = 20,
+        frame_width = 24,
+        frame_hight = 3,
+    };
+    Frame_3 = Frame_Graphics(Frame_3);
+
+    var Frame_4 = new Frame_Characteristics
+    {
+        frame_x0 = 0,
+        frame_y0 = 20,
+        frame_width = 13,
+        frame_hight = 3,
+    };
+    Frame_4 = Frame_Graphics(Frame_4);
+}
+
 void All_Slots()
 {
     var Slot_1 = new Slot_Characteristics
@@ -340,6 +435,8 @@ void All_Slots()
     };
     Slot_15 = Slot_Graphics(Slot_15);
 }
+Background_Layer_1();
+All_Frames();
 All_Slots();
 
 void Output()
@@ -355,6 +452,8 @@ void Output()
                 Console.ForegroundColor = ConsoleColor.Magenta;
             if (Matrix_Color[i] == "DarkMagenta")
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            if (Matrix_Color[i] == "White")
+                Console.ForegroundColor = ConsoleColor.White;
             Console.Write(Matrix[i]);
             i++;
         }
@@ -362,6 +461,11 @@ void Output()
     }
 }
 Output();
+
+Console.WriteLine("𝓑𝓔𝓣");
+Console.WriteLine("𝓦𝓘𝓝");
+Console.WriteLine("𝓑𝓐𝓛𝓐𝓝𝓒𝓔");
+Console.WriteLine("𝓒𝓞𝓝𝓢𝓞𝓛𝓔.𝓒𝓐𝓢𝓘𝓝𝓞");
 
 struct Slot_Characteristics
 {
@@ -373,4 +477,15 @@ struct Slot_Characteristics
     public int[] Slot_X;
     public int[] Slot_Y;
     public string[] Slot_Elements_Color;
+}
+
+struct Frame_Characteristics
+{
+    public int frame_x0;
+    public int frame_y0;
+    public int frame_width;
+    public int frame_hight;
+    public string[] Frame_Graphic_Elements;
+    public string[] Frame_Elements_Color;
+    public char[] In_Frame_Text;
 }
