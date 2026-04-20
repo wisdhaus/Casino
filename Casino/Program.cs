@@ -1,7 +1,13 @@
-﻿using System.Numerics;
+﻿using System.Globalization;
+using System.Numerics;
 using static System.Formats.Asn1.AsnWriter;
+using static System.Net.Mime.MediaTypeNames;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+long balance = 10000000;
+long bet = 100;
+long win = 10000;
 
 //string cd_gold_disk = "📀";
 int matrix_width = 58;
@@ -16,7 +22,7 @@ Random rand = new Random();
 
 for (int i = 0; i < matrix_square; i++)
 {
-    Matrix[i] = ".";
+    Matrix[i] = " ";
 }
 
 Slot_Characteristics Slot_Graphics(Slot_Characteristics Slot_With_Symbol)
@@ -67,6 +73,7 @@ Slot_Characteristics Slot_Graphics(Slot_Characteristics Slot_With_Symbol)
             Slot_With_Symbol.Slot_Graphic_Elements[i] = " ";
         }
     }
+
     if (Slot_With_Symbol.slot_symbol == "⚡")
     {
         for (int i = 0; i < 3; i++)
@@ -83,6 +90,7 @@ Slot_Characteristics Slot_Graphics(Slot_Characteristics Slot_With_Symbol)
             }
         }
     }
+
     Slot_With_Symbol.Slot_Graphic_Elements[0] = "╔";
     Slot_With_Symbol.Slot_Graphic_Elements[
         Slot_With_Symbol.Slot_Graphic_Elements.Length / slot_hight - 1
@@ -91,16 +99,19 @@ Slot_Characteristics Slot_Graphics(Slot_Characteristics Slot_With_Symbol)
         Slot_With_Symbol.Slot_Graphic_Elements.Length - slot_width
     ] = "╚";
     Slot_With_Symbol.Slot_Graphic_Elements[Slot_With_Symbol.Slot_Graphic_Elements.Length - 1] = "╝";
+
     if (Slot_With_Symbol.slot_symbol != "⚡")
     {
         Slot_With_Symbol.Slot_Graphic_Elements[
             Slot_With_Symbol.Slot_Graphic_Elements.Length / 2 - 1
         ] = Slot_With_Symbol.slot_symbol;
     }
+
     for (int i = 1; i < slot_width - 1; i++)
     {
         Slot_With_Symbol.Slot_Graphic_Elements[i] = "═";
     }
+
     for (
         int i = Slot_With_Symbol.Slot_Graphic_Elements.Length - slot_width + 1;
         i < Slot_With_Symbol.Slot_Graphic_Elements.Length - 1;
@@ -109,11 +120,13 @@ Slot_Characteristics Slot_Graphics(Slot_Characteristics Slot_With_Symbol)
     {
         Slot_With_Symbol.Slot_Graphic_Elements[i] = "═";
     }
+
     for (int i = slot_width; i < Slot_With_Symbol.Slot_Graphic_Elements.Length - slot_width; )
     {
         Slot_With_Symbol.Slot_Graphic_Elements[i] = "║";
         i = i + slot_width;
     }
+
     for (
         int i = slot_width * 2 - 1;
         i < Slot_With_Symbol.Slot_Graphic_Elements.Length - slot_width;
@@ -145,73 +158,130 @@ Slot_Characteristics Slot_Graphics(Slot_Characteristics Slot_With_Symbol)
 
     return Slot_With_Symbol;
 }
-Frame_Characteristics Frame_Graphics(Frame_Characteristics Frame_With_Value)
+
+Frame_Characteristics Frame_Graphics(Frame_Characteristics Frame)
 {
-    Frame_With_Value.In_Frame_Text = new char[Frame_With_Value.frame_width - 2];
+    int frame_square = Frame.frame_width * Frame.frame_hight;
+    Frame.Frame_Graphic_Elements = new string[frame_square];
 
-    int frame_square = Frame_With_Value.frame_width * Frame_With_Value.frame_hight;
-    Frame_With_Value.Frame_Graphic_Elements = new string[frame_square];
-    for (int i = 0; i < Frame_With_Value.Frame_Graphic_Elements.Length; i++)
+    for (int i = 0; i < Frame.Frame_Graphic_Elements.Length; i++)
     {
-        Frame_With_Value.Frame_Graphic_Elements[i] = " ";
-    }
-    Frame_With_Value.Frame_Graphic_Elements[0] = "╔";
-    Frame_With_Value.Frame_Graphic_Elements[
-        Frame_With_Value.Frame_Graphic_Elements.Length / Frame_With_Value.frame_hight - 1
-    ] = "╗";
-    Frame_With_Value.Frame_Graphic_Elements[
-        Frame_With_Value.Frame_Graphic_Elements.Length - Frame_With_Value.frame_width
-    ] = "╚";
-    Frame_With_Value.Frame_Graphic_Elements[Frame_With_Value.Frame_Graphic_Elements.Length - 1] =
-        "╝";
-    for (int i = 1; i < Frame_With_Value.frame_width - 1; i++)
-    {
-        Frame_With_Value.Frame_Graphic_Elements[i] = "═";
-    }
-    for (
-        int i = Frame_With_Value.Frame_Graphic_Elements.Length - Frame_With_Value.frame_width + 1;
-        i < Frame_With_Value.Frame_Graphic_Elements.Length - 1;
-        i++
-    )
-    {
-        Frame_With_Value.Frame_Graphic_Elements[i] = "═";
-    }
-    for (
-        int i = Frame_With_Value.frame_width;
-        i < Frame_With_Value.Frame_Graphic_Elements.Length - Frame_With_Value.frame_width;
-
-    )
-    {
-        Frame_With_Value.Frame_Graphic_Elements[i] = "║";
-        i = i + Frame_With_Value.frame_width;
-    }
-    for (
-        int i = Frame_With_Value.frame_width * 2 - 1;
-        i < Frame_With_Value.Frame_Graphic_Elements.Length - Frame_With_Value.frame_width;
-
-    )
-    {
-        Frame_With_Value.Frame_Graphic_Elements[i] = "║";
-        i = i + Frame_With_Value.frame_width;
+        Frame.Frame_Graphic_Elements[i] = " ";
     }
 
-    for (int i = 0; i < Frame_With_Value.Frame_Graphic_Elements.Length; i++)
+    //In-frame line
+    if (Frame.frame_value_name != null)
     {
-        int x =
-            i
-            - (int)(i / Frame_With_Value.frame_width) * Frame_With_Value.frame_width
-            + Frame_With_Value.frame_x0;
-        int y = (int)(i / Frame_With_Value.frame_width) + Frame_With_Value.frame_y0;
-        if (Frame_With_Value.Frame_Graphic_Elements[i] != " ")
+        char[] Frame_Line = new char[Frame.frame_width - 2];
+
+        for (int i = 0; i < Frame_Line.Length; i++)
         {
-            Matrix[matrix_width * y + x] = Graphic_Elements_Addition(
-                (Matrix[matrix_width * y + x]),
-                (Frame_With_Value.Frame_Graphic_Elements[i])
+            Frame_Line[i] = ' ';
+        }
+
+        for (int i = 0; i < Frame.frame_value_name.Length; i++)
+        {
+            Frame_Line[i] = Frame.frame_value_name[i];
+        }
+
+        Frame_Line[Frame_Line.Length - 1] = '$';
+
+        char[] frame_value_space = new char[Frame_Line.Length - Frame.frame_value_name.Length - 1];
+
+        for (int i = 0; i < frame_value_space.Length; i++)
+        {
+            frame_value_space[i] = '_';
+        }
+
+        string value_to_string = Convert.ToString(Frame.value);
+        if (frame_value_space.Length >= value_to_string.Length)
+        {
+            for (
+                int i = frame_value_space.Length - value_to_string.Length;
+                i < frame_value_space.Length;
+                i++
+            )
+            {
+                frame_value_space[i] = value_to_string[
+                    i - (frame_value_space.Length - value_to_string.Length)
+                ];
+            }
+        }
+        else if (frame_value_space.Length < value_to_string.Length)
+        {
+            int i = 0;
+            for (; i < frame_value_space.Length; i++)
+            {
+                frame_value_space[i] = value_to_string[i];
+            }
+            frame_value_space[i - 1] = '…';
+        }
+
+        for (int i = Frame.frame_value_name.Length; i < Frame_Line.Length - 1; i++)
+        {
+            Frame_Line[i] = frame_value_space[i - Frame.frame_value_name.Length];
+        }
+
+        for (int i = 0; i < Frame_Line.Length; i++)
+        {
+            Frame.Frame_Graphic_Elements[i + 1 + Frame.frame_width] = Convert.ToString(
+                Frame_Line[i]
             );
         }
     }
-    return Frame_With_Value;
+
+    //Graphic elements
+    Frame.Frame_Graphic_Elements[0] = "╔";
+    Frame.Frame_Graphic_Elements[Frame.Frame_Graphic_Elements.Length / Frame.frame_hight - 1] = "╗";
+    Frame.Frame_Graphic_Elements[Frame.Frame_Graphic_Elements.Length - Frame.frame_width] = "╚";
+    Frame.Frame_Graphic_Elements[Frame.Frame_Graphic_Elements.Length - 1] = "╝";
+
+    for (int i = 1; i < Frame.frame_width - 1; i++)
+    {
+        Frame.Frame_Graphic_Elements[i] = "═";
+    }
+
+    for (
+        int i = Frame.Frame_Graphic_Elements.Length - Frame.frame_width + 1;
+        i < Frame.Frame_Graphic_Elements.Length - 1;
+        i++
+    )
+    {
+        Frame.Frame_Graphic_Elements[i] = "═";
+    }
+
+    for (int i = Frame.frame_width; i < Frame.Frame_Graphic_Elements.Length - Frame.frame_width; )
+    {
+        Frame.Frame_Graphic_Elements[i] = "║";
+        i = i + Frame.frame_width;
+    }
+
+    for (
+        int i = Frame.frame_width * 2 - 1;
+        i < Frame.Frame_Graphic_Elements.Length - Frame.frame_width;
+
+    )
+    {
+        Frame.Frame_Graphic_Elements[i] = "║";
+        i = i + Frame.frame_width;
+    }
+
+    for (int i = 0; i < Frame.Frame_Graphic_Elements.Length; i++)
+    {
+        int x = i - (int)(i / Frame.frame_width) * Frame.frame_width + Frame.frame_x0;
+        int y = (int)(i / Frame.frame_width) + Frame.frame_y0;
+        if (Frame.Frame_Graphic_Elements[i] != " ")
+        {
+            Matrix[matrix_width * y + x] = Graphic_Elements_Addition(
+                (Matrix[matrix_width * y + x]),
+                (Frame.Frame_Graphic_Elements[i])
+            );
+        }
+    }
+
+    return Frame;
 }
+
 string Graphic_Elements_Addition(string input_1, string input_2)
 {
     //0b(right)(up)(left)(down)
@@ -232,21 +302,20 @@ string Graphic_Elements_Addition(string input_1, string input_2)
             { "═", 0b1010 },
             { "║", 0b0101 }
         };
+
     Dictionary<int, string> BN_To_GE = GE_To_BN.ToDictionary(i => i.Value, i => i.Key);
-    string Addition(string existing_symbol, string additional_symbol)
+
+    if (GE_To_BN.ContainsKey(input_1) && GE_To_BN.ContainsKey(input_2))
     {
-        if (GE_To_BN.ContainsKey(existing_symbol) && GE_To_BN.ContainsKey(additional_symbol))
-        {
-            int binary_resoult = GE_To_BN[existing_symbol] | GE_To_BN[additional_symbol];
-            return BN_To_GE[binary_resoult];
-        }
-        else
-        {
-            return additional_symbol;
-        }
+        int binary_resoult = GE_To_BN[input_1] | GE_To_BN[input_2];
+        return BN_To_GE[binary_resoult];
     }
-    return Convert.ToString(Addition(input_1, input_2));
+    else
+    {
+        return input_2;
+    }
 }
+
 void Background_Layer_1()
 {
     for (int i = 0; i < matrix_square; i++)
@@ -268,7 +337,7 @@ void All_Frames()
         frame_width = 58,
         frame_hight = 19,
     };
-    Frame_1 = Frame_Graphics(Frame_1);
+    Frame_Graphics(Frame_1);
 
     var Frame_2 = new Frame_Characteristics
     {
@@ -276,8 +345,10 @@ void All_Frames()
         frame_y0 = 0,
         frame_width = 24,
         frame_hight = 3,
+        frame_value_name = "BALANCE:",
+        value = balance,
     };
-    Frame_2 = Frame_Graphics(Frame_2);
+    Frame_Graphics(Frame_2);
 
     var Frame_3 = new Frame_Characteristics
     {
@@ -285,8 +356,10 @@ void All_Frames()
         frame_y0 = 20,
         frame_width = 24,
         frame_hight = 3,
+        frame_value_name = "WIN:",
+        value = win,
     };
-    Frame_3 = Frame_Graphics(Frame_3);
+    Frame_Graphics(Frame_3);
 
     var Frame_4 = new Frame_Characteristics
     {
@@ -294,8 +367,10 @@ void All_Frames()
         frame_y0 = 20,
         frame_width = 13,
         frame_hight = 3,
+        frame_value_name = "BET:",
+        value = bet,
     };
-    Frame_4 = Frame_Graphics(Frame_4);
+    Frame_Graphics(Frame_4);
 }
 
 void All_Slots()
@@ -307,7 +382,7 @@ void All_Slots()
         slot_scale = 1,
         slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
     };
-    Slot_1 = Slot_Graphics(Slot_1);
+    Slot_Graphics(Slot_1);
 
     var Slot_2 = new Slot_Characteristics
     {
@@ -316,7 +391,7 @@ void All_Slots()
         slot_scale = 1,
         slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
     };
-    Slot_2 = Slot_Graphics(Slot_2);
+    Slot_Graphics(Slot_2);
 
     var Slot_3 = new Slot_Characteristics
     {
@@ -325,7 +400,7 @@ void All_Slots()
         slot_scale = 1,
         slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
     };
-    Slot_3 = Slot_Graphics(Slot_3);
+    Slot_Graphics(Slot_3);
 
     var Slot_4 = new Slot_Characteristics
     {
@@ -334,7 +409,7 @@ void All_Slots()
         slot_scale = 1,
         slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
     };
-    Slot_4 = Slot_Graphics(Slot_4);
+    Slot_Graphics(Slot_4);
 
     var Slot_5 = new Slot_Characteristics
     {
@@ -343,7 +418,7 @@ void All_Slots()
         slot_scale = 1,
         slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
     };
-    Slot_5 = Slot_Graphics(Slot_5);
+    Slot_Graphics(Slot_5);
 
     var Slot_6 = new Slot_Characteristics
     {
@@ -352,7 +427,7 @@ void All_Slots()
         slot_scale = 1,
         slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
     };
-    Slot_6 = Slot_Graphics(Slot_6);
+    Slot_Graphics(Slot_6);
 
     var Slot_7 = new Slot_Characteristics
     {
@@ -361,7 +436,7 @@ void All_Slots()
         slot_scale = 1,
         slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
     };
-    Slot_7 = Slot_Graphics(Slot_7);
+    Slot_Graphics(Slot_7);
 
     var Slot_8 = new Slot_Characteristics
     {
@@ -370,7 +445,7 @@ void All_Slots()
         slot_scale = 1,
         slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
     };
-    Slot_8 = Slot_Graphics(Slot_8);
+    Slot_Graphics(Slot_8);
 
     var Slot_9 = new Slot_Characteristics
     {
@@ -379,7 +454,7 @@ void All_Slots()
         slot_scale = 1,
         slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
     };
-    Slot_9 = Slot_Graphics(Slot_9);
+    Slot_Graphics(Slot_9);
 
     var Slot_10 = new Slot_Characteristics
     {
@@ -388,7 +463,7 @@ void All_Slots()
         slot_scale = 1,
         slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
     };
-    Slot_10 = Slot_Graphics(Slot_10);
+    Slot_Graphics(Slot_10);
 
     var Slot_11 = new Slot_Characteristics
     {
@@ -397,7 +472,7 @@ void All_Slots()
         slot_scale = 1,
         slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
     };
-    Slot_11 = Slot_Graphics(Slot_11);
+    Slot_Graphics(Slot_11);
 
     var Slot_12 = new Slot_Characteristics
     {
@@ -406,7 +481,7 @@ void All_Slots()
         slot_scale = 1,
         slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
     };
-    Slot_12 = Slot_Graphics(Slot_12);
+    Slot_Graphics(Slot_12);
 
     var Slot_13 = new Slot_Characteristics
     {
@@ -415,7 +490,7 @@ void All_Slots()
         slot_scale = 1,
         slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
     };
-    Slot_13 = Slot_Graphics(Slot_13);
+    Slot_Graphics(Slot_13);
 
     var Slot_14 = new Slot_Characteristics
     {
@@ -424,7 +499,7 @@ void All_Slots()
         slot_scale = 1,
         slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
     };
-    Slot_14 = Slot_Graphics(Slot_14);
+    Slot_Graphics(Slot_14);
 
     var Slot_15 = new Slot_Characteristics
     {
@@ -433,11 +508,8 @@ void All_Slots()
         slot_scale = 1,
         slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
     };
-    Slot_15 = Slot_Graphics(Slot_15);
+    Slot_Graphics(Slot_15);
 }
-Background_Layer_1();
-All_Frames();
-All_Slots();
 
 void Output()
 {
@@ -460,12 +532,16 @@ void Output()
         Console.WriteLine();
     }
 }
-Output();
 
-Console.WriteLine("𝓑𝓔𝓣");
-Console.WriteLine("𝓦𝓘𝓝");
-Console.WriteLine("𝓑𝓐𝓛𝓐𝓝𝓒𝓔");
-Console.WriteLine("𝓒𝓞𝓝𝓢𝓞𝓛𝓔.𝓒𝓐𝓢𝓘𝓝𝓞");
+string console_casino = "CONSOLE.CASINO";
+for (int i = 0; i < console_casino.Length; i++)
+{
+    Matrix[i + matrix_width] = Convert.ToString(console_casino[i]);
+}
+Background_Layer_1();
+All_Frames();
+All_Slots();
+Output();
 
 struct Slot_Characteristics
 {
@@ -487,5 +563,6 @@ struct Frame_Characteristics
     public int frame_hight;
     public string[] Frame_Graphic_Elements;
     public string[] Frame_Elements_Color;
-    public char[] In_Frame_Text;
+    public long value;
+    public string frame_value_name;
 }
