@@ -14,16 +14,15 @@ int matrix_width = 58;
 int matrix_hight = 23;
 int matrix_square = matrix_width * matrix_hight;
 string[] Matrix = new string[matrix_square];
-string[] Matrix_Color = new string[matrix_square];
+Array.Fill(Matrix, " ");
+string[] Matrix_Foreground_Color = new string[matrix_square];
+Array.Fill(Matrix_Foreground_Color, "Magenta");
+string[] Matrix_Background_Color = new string[matrix_square];
+Array.Fill(Matrix_Background_Color, "Black");
 
 string[] Symbols = { "🇯", "🇶", "🇰", "🇹", "🥝", "🍋", "🍒", "💎", "🔔", "⚡" };
 string[] Wild_Symbol = { "", "⚡", "W", "I", "L", "D", "⚡", "" };
 Random rand = new Random();
-
-for (int i = 0; i < matrix_square; i++)
-{
-    Matrix[i] = " ";
-}
 
 Slot_Characteristics Slot_Graphics(Slot_Characteristics Slot_With_Symbol)
 {
@@ -52,10 +51,7 @@ Slot_Characteristics Slot_Graphics(Slot_Characteristics Slot_With_Symbol)
 
     //Slot's Color
     Slot_With_Symbol.Slot_Elements_Color = new string[slot_square];
-    for (int i = 0; i < Slot_With_Symbol.Slot_Elements_Color.Length; i++)
-    {
-        Slot_With_Symbol.Slot_Elements_Color[i] = "Cyan";
-    }
+    Array.Fill(Slot_With_Symbol.Slot_Elements_Color, "Cyan");
     if (Slot_With_Symbol.slot_symbol != "⚡")
     {
         Slot_With_Symbol.Slot_Elements_Color[Slot_With_Symbol.Slot_Elements_Color.Length / 2 - 1] =
@@ -153,7 +149,8 @@ Slot_Characteristics Slot_Graphics(Slot_Characteristics Slot_With_Symbol)
         int color_x =
             i - (int)(i / slot_width) * slot_width + Slot_With_Symbol.slot_x0 + all_slots_x;
         int color_y = (int)(i / slot_width) + Slot_With_Symbol.slot_y0 + all_slots_y;
-        Matrix_Color[matrix_width * color_y + color_x] = Slot_With_Symbol.Slot_Elements_Color[i];
+        Matrix_Foreground_Color[matrix_width * color_y + color_x] =
+            Slot_With_Symbol.Slot_Elements_Color[i];
     }
 
     return Slot_With_Symbol;
@@ -163,21 +160,15 @@ Frame_Characteristics Frame_Graphics(Frame_Characteristics Frame)
 {
     int frame_square = Frame.frame_width * Frame.frame_hight;
     Frame.Frame_Graphic_Elements = new string[frame_square];
-
-    for (int i = 0; i < Frame.Frame_Graphic_Elements.Length; i++)
-    {
-        Frame.Frame_Graphic_Elements[i] = " ";
-    }
+    Array.Fill(Frame.Frame_Graphic_Elements, " ");
+    Frame.Frame_Elements_Color = new string[frame_square];
+    Array.Fill(Frame.Frame_Elements_Color, "Magenta");
 
     //In-frame line
     if (Frame.frame_value_name != null)
     {
         char[] Frame_Line = new char[Frame.frame_width - 2];
-
-        for (int i = 0; i < Frame_Line.Length; i++)
-        {
-            Frame_Line[i] = ' ';
-        }
+        Array.Fill(Frame_Line, ' ');
 
         for (int i = 0; i < Frame.frame_value_name.Length; i++)
         {
@@ -188,10 +179,7 @@ Frame_Characteristics Frame_Graphics(Frame_Characteristics Frame)
 
         char[] frame_value_space = new char[Frame_Line.Length - Frame.frame_value_name.Length - 1];
 
-        for (int i = 0; i < frame_value_space.Length; i++)
-        {
-            frame_value_space[i] = '_';
-        }
+        Array.Fill(frame_value_space, '_');
 
         string value_to_string = Convert.ToString(Frame.value);
         if (frame_value_space.Length >= value_to_string.Length)
@@ -227,6 +215,7 @@ Frame_Characteristics Frame_Graphics(Frame_Characteristics Frame)
             Frame.Frame_Graphic_Elements[i + 1 + Frame.frame_width] = Convert.ToString(
                 Frame_Line[i]
             );
+            Frame.Frame_Elements_Color[i + 1 + Frame.frame_width] = "Magenta";
         }
     }
 
@@ -276,6 +265,7 @@ Frame_Characteristics Frame_Graphics(Frame_Characteristics Frame)
                 (Matrix[matrix_width * y + x]),
                 (Frame.Frame_Graphic_Elements[i])
             );
+            Matrix_Foreground_Color[matrix_width * y + x] = Frame.Frame_Elements_Color[i];
         }
     }
 
@@ -318,10 +308,6 @@ string Graphic_Elements_Addition(string input_1, string input_2)
 
 void Background_Layer_1()
 {
-    for (int i = 0; i < matrix_square; i++)
-    {
-        Matrix_Color[i] = "Magenta";
-    }
     for (int i = 3 * matrix_width; i < 20 * matrix_width; i++)
     {
         Matrix[i] = "│";
@@ -518,14 +504,26 @@ void Output()
     {
         for (int k = 0; k < matrix_width; k++)
         {
-            if (Matrix_Color[i] == "Cyan")
+            //Foreground
+            if (Matrix_Foreground_Color[i] == "Cyan")
                 Console.ForegroundColor = ConsoleColor.Cyan;
-            if (Matrix_Color[i] == "Magenta")
+            if (Matrix_Foreground_Color[i] == "Magenta")
                 Console.ForegroundColor = ConsoleColor.Magenta;
-            if (Matrix_Color[i] == "DarkMagenta")
+            if (Matrix_Foreground_Color[i] == "DarkMagenta")
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            if (Matrix_Color[i] == "White")
+            if (Matrix_Foreground_Color[i] == "White")
                 Console.ForegroundColor = ConsoleColor.White;
+            if (Matrix_Foreground_Color[i] == "Black")
+                Console.ForegroundColor = ConsoleColor.Black;
+
+            //Background
+            if (Matrix_Background_Color[i] == "Black")
+                Console.BackgroundColor = ConsoleColor.Black;
+            if (Matrix_Background_Color[i] == "Magenta")
+                Console.BackgroundColor = ConsoleColor.Magenta;
+            if (Matrix_Background_Color[i] == "Cyan")
+                Console.BackgroundColor = ConsoleColor.Cyan;
+
             Console.Write(Matrix[i]);
             i++;
         }
@@ -533,12 +531,19 @@ void Output()
     }
 }
 
-string console_casino = "CONSOLE.CASINO";
-for (int i = 0; i < console_casino.Length; i++)
+void Title()
 {
-    Matrix[i + matrix_width] = Convert.ToString(console_casino[i]);
+    string title = "/CONSOLE_CASINO.exe";
+    for (int i = 0; i < title.Length; i++)
+    {
+        Matrix[i + matrix_width] = Convert.ToString(title[i]);
+        Matrix_Foreground_Color[i + matrix_width] = "Black";
+        Matrix_Background_Color[i + matrix_width] = "Magenta";
+    }
 }
+
 Background_Layer_1();
+Title();
 All_Frames();
 All_Slots();
 Output();
