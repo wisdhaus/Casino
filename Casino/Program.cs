@@ -5,9 +5,10 @@ using static System.Net.Mime.MediaTypeNames;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-long balance = 10000000;
+double balance = 0;
 long bet = 100;
 long win = 10000;
+Random rand = new Random();
 
 //string cd_gold_disk = "📀";
 int matrix_width = 58;
@@ -22,8 +23,38 @@ Array.Fill(Matrix_Background_Color, "Black");
 
 string[] Symbols = { "🇯", "🇶", "🇰", "🇹", "🥝", "🍋", "🍒", "💎", "🔔", "⚡" };
 string[] Wild_Symbol = { "", "⚡", "W", "I", "L", "D", "⚡", "" };
-Random rand = new Random();
 
+string[] Generated_Symbols = new string[15];
+for (int i = 0; i < Generated_Symbols.Length; i++)
+{
+    Generated_Symbols[i] = Symbols[rand.Next(0, Symbols.Length)];
+}
+
+/*
+string slot_1_symbol = Generated_Symbols[0];
+string slot_2_symbol = Generated_Symbols[1];
+string slot_3_symbol = Generated_Symbols[2];
+int[] Combinations_Count(string slot_i_symbol)
+{
+    int[] Slot_i_Combs = new int[15];
+    Array.Fill(Slot_i_Combs, 0);
+    for (int i = 3; i < Generated_Symbols.Length; i++)
+    {
+        if (Generated_Symbols[i] == slot_i_symbol)
+        {
+            Slot_i_Combs[i] = 1;
+        }
+    }
+    return Slot_i_Combs;
+}
+int[] slot_1_combs = Combinations_Count(slot_1_symbol);
+int[] slot_2_combs = Combinations_Count(slot_2_symbol);
+int[] slot_3_combs = Combinations_Count(slot_3_symbol);
+for (int i = 0; i < slot_1_combs.Length; i++)
+{
+    Console.WriteLine(slot_1_combs[i]);
+}
+*/
 Slot_Characteristics Slot_Graphics(Slot_Characteristics Slot_With_Symbol)
 {
     //Slot's Sizing
@@ -366,7 +397,7 @@ void All_Slots()
         slot_x0 = 0,
         slot_y0 = 0,
         slot_scale = 1,
-        slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
+        slot_symbol = Generated_Symbols[0],
     };
     Slot_Graphics(Slot_1);
 
@@ -375,7 +406,7 @@ void All_Slots()
         slot_x0 = 11,
         slot_y0 = 0,
         slot_scale = 1,
-        slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
+        slot_symbol = Generated_Symbols[1],
     };
     Slot_Graphics(Slot_2);
 
@@ -384,7 +415,7 @@ void All_Slots()
         slot_x0 = 22,
         slot_y0 = 0,
         slot_scale = 1,
-        slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
+        slot_symbol = Generated_Symbols[2],
     };
     Slot_Graphics(Slot_3);
 
@@ -393,7 +424,7 @@ void All_Slots()
         slot_x0 = 33,
         slot_y0 = 0,
         slot_scale = 1,
-        slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
+        slot_symbol = Generated_Symbols[3],
     };
     Slot_Graphics(Slot_4);
 
@@ -402,7 +433,7 @@ void All_Slots()
         slot_x0 = 44,
         slot_y0 = 0,
         slot_scale = 1,
-        slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
+        slot_symbol = Generated_Symbols[4],
     };
     Slot_Graphics(Slot_5);
 
@@ -411,7 +442,7 @@ void All_Slots()
         slot_x0 = 0,
         slot_y0 = 5,
         slot_scale = 1,
-        slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
+        slot_symbol = Generated_Symbols[5],
     };
     Slot_Graphics(Slot_6);
 
@@ -420,7 +451,7 @@ void All_Slots()
         slot_x0 = 11,
         slot_y0 = 5,
         slot_scale = 1,
-        slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
+        slot_symbol = Generated_Symbols[6],
     };
     Slot_Graphics(Slot_7);
 
@@ -429,7 +460,7 @@ void All_Slots()
         slot_x0 = 22,
         slot_y0 = 5,
         slot_scale = 1,
-        slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
+        slot_symbol = Generated_Symbols[7],
     };
     Slot_Graphics(Slot_8);
 
@@ -438,7 +469,7 @@ void All_Slots()
         slot_x0 = 33,
         slot_y0 = 5,
         slot_scale = 1,
-        slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
+        slot_symbol = Generated_Symbols[8],
     };
     Slot_Graphics(Slot_9);
 
@@ -447,7 +478,7 @@ void All_Slots()
         slot_x0 = 44,
         slot_y0 = 5,
         slot_scale = 1,
-        slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
+        slot_symbol = Generated_Symbols[9],
     };
     Slot_Graphics(Slot_10);
 
@@ -456,7 +487,7 @@ void All_Slots()
         slot_x0 = 0,
         slot_y0 = 10,
         slot_scale = 1,
-        slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
+        slot_symbol = Generated_Symbols[10],
     };
     Slot_Graphics(Slot_11);
 
@@ -465,7 +496,7 @@ void All_Slots()
         slot_x0 = 11,
         slot_y0 = 10,
         slot_scale = 1,
-        slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
+        slot_symbol = Generated_Symbols[11],
     };
     Slot_Graphics(Slot_12);
 
@@ -474,7 +505,7 @@ void All_Slots()
         slot_x0 = 22,
         slot_y0 = 10,
         slot_scale = 1,
-        slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
+        slot_symbol = Generated_Symbols[12],
     };
     Slot_Graphics(Slot_13);
 
@@ -483,7 +514,7 @@ void All_Slots()
         slot_x0 = 33,
         slot_y0 = 10,
         slot_scale = 1,
-        slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
+        slot_symbol = Generated_Symbols[13],
     };
     Slot_Graphics(Slot_14);
 
@@ -492,7 +523,7 @@ void All_Slots()
         slot_x0 = 44,
         slot_y0 = 10,
         slot_scale = 1,
-        slot_symbol = Symbols[rand.Next(0, Symbols.Length)]
+        slot_symbol = Generated_Symbols[14],
     };
     Slot_Graphics(Slot_15);
 }
@@ -538,7 +569,7 @@ void Title()
     {
         Matrix[i + matrix_width] = Convert.ToString(title[i]);
         Matrix_Foreground_Color[i + matrix_width] = "Black";
-        Matrix_Background_Color[i + matrix_width] = "Magenta";
+        Matrix_Background_Color[i + matrix_width] = "Cyan";
     }
 }
 
@@ -568,6 +599,6 @@ struct Frame_Characteristics
     public int frame_hight;
     public string[] Frame_Graphic_Elements;
     public string[] Frame_Elements_Color;
-    public long value;
+    public double value;
     public string frame_value_name;
 }
