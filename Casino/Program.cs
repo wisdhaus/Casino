@@ -30,7 +30,6 @@ for (int i = 0; i < Generated_Symbols.Length; i++)
     Generated_Symbols[i] = Symbols[rand.Next(0, Symbols.Length)];
 }
 
-/*
 string slot_1_symbol = Generated_Symbols[0];
 string slot_2_symbol = Generated_Symbols[1];
 string slot_3_symbol = Generated_Symbols[2];
@@ -54,7 +53,7 @@ for (int i = 0; i < slot_1_combs.Length; i++)
 {
     Console.WriteLine(slot_1_combs[i]);
 }
-*/
+
 Slot_Characteristics Slot_Graphics(Slot_Characteristics Slot_With_Symbol)
 {
     //Slot's Sizing
@@ -403,8 +402,8 @@ void All_Slots()
 
     var Slot_2 = new Slot_Characteristics
     {
-        slot_x0 = 11,
-        slot_y0 = 0,
+        slot_x0 = 0,
+        slot_y0 = 5,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[1],
     };
@@ -412,8 +411,8 @@ void All_Slots()
 
     var Slot_3 = new Slot_Characteristics
     {
-        slot_x0 = 22,
-        slot_y0 = 0,
+        slot_x0 = 0,
+        slot_y0 = 10,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[2],
     };
@@ -421,7 +420,7 @@ void All_Slots()
 
     var Slot_4 = new Slot_Characteristics
     {
-        slot_x0 = 33,
+        slot_x0 = 11,
         slot_y0 = 0,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[3],
@@ -430,8 +429,8 @@ void All_Slots()
 
     var Slot_5 = new Slot_Characteristics
     {
-        slot_x0 = 44,
-        slot_y0 = 0,
+        slot_x0 = 11,
+        slot_y0 = 5,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[4],
     };
@@ -439,8 +438,8 @@ void All_Slots()
 
     var Slot_6 = new Slot_Characteristics
     {
-        slot_x0 = 0,
-        slot_y0 = 5,
+        slot_x0 = 11,
+        slot_y0 = 10,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[5],
     };
@@ -448,8 +447,8 @@ void All_Slots()
 
     var Slot_7 = new Slot_Characteristics
     {
-        slot_x0 = 11,
-        slot_y0 = 5,
+        slot_x0 = 22,
+        slot_y0 = 0,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[6],
     };
@@ -466,8 +465,8 @@ void All_Slots()
 
     var Slot_9 = new Slot_Characteristics
     {
-        slot_x0 = 33,
-        slot_y0 = 5,
+        slot_x0 = 22,
+        slot_y0 = 10,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[8],
     };
@@ -475,8 +474,8 @@ void All_Slots()
 
     var Slot_10 = new Slot_Characteristics
     {
-        slot_x0 = 44,
-        slot_y0 = 5,
+        slot_x0 = 33,
+        slot_y0 = 0,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[9],
     };
@@ -484,8 +483,8 @@ void All_Slots()
 
     var Slot_11 = new Slot_Characteristics
     {
-        slot_x0 = 0,
-        slot_y0 = 10,
+        slot_x0 = 33,
+        slot_y0 = 5,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[10],
     };
@@ -493,7 +492,7 @@ void All_Slots()
 
     var Slot_12 = new Slot_Characteristics
     {
-        slot_x0 = 11,
+        slot_x0 = 33,
         slot_y0 = 10,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[11],
@@ -502,8 +501,8 @@ void All_Slots()
 
     var Slot_13 = new Slot_Characteristics
     {
-        slot_x0 = 22,
-        slot_y0 = 10,
+        slot_x0 = 44,
+        slot_y0 = 0,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[12],
     };
@@ -511,8 +510,8 @@ void All_Slots()
 
     var Slot_14 = new Slot_Characteristics
     {
-        slot_x0 = 33,
-        slot_y0 = 10,
+        slot_x0 = 44,
+        slot_y0 = 5,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[13],
     };
