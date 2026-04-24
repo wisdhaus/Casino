@@ -33,27 +33,66 @@ for (int i = 0; i < Generated_Symbols.Length; i++)
 string slot_1_symbol = Generated_Symbols[0];
 string slot_2_symbol = Generated_Symbols[1];
 string slot_3_symbol = Generated_Symbols[2];
-int[] Combinations_Count(string slot_i_symbol)
+int[] Matches_Count(string slot_i_symbol)
 {
-    int[] Slot_i_Combs = new int[15];
-    Array.Fill(Slot_i_Combs, 0);
-    for (int i = 3; i < Generated_Symbols.Length; i++)
+    int[] Slot_i_Match = new int[15];
+    Array.Fill(Slot_i_Match, 0);
+    if (slot_i_symbol != "⚡")
     {
-        if (Generated_Symbols[i] == slot_i_symbol)
+        for (int i = 3; i < Generated_Symbols.Length; i++)
         {
-            Slot_i_Combs[i] = 1;
+            if (Generated_Symbols[i] == slot_i_symbol || Generated_Symbols[i] == "⚡")
+            {
+                Slot_i_Match[i] = 1;
+            }
         }
     }
-    return Slot_i_Combs;
+    return Slot_i_Match;
 }
-int[] slot_1_combs = Combinations_Count(slot_1_symbol);
-int[] slot_2_combs = Combinations_Count(slot_2_symbol);
-int[] slot_3_combs = Combinations_Count(slot_3_symbol);
-for (int i = 0; i < slot_1_combs.Length; i++)
+int[] Slot_1_Match = Matches_Count(slot_1_symbol);
+int[] Slot_2_Match = Matches_Count(slot_2_symbol);
+int[] Slot_3_Match = Matches_Count(slot_3_symbol);
+void Comb_Count_And_Length(int[] Slot_i_Match)
 {
-    Console.WriteLine(slot_1_combs[i]);
+    for (int i = 0; i < Slot_i_Match.Length; i++)
+    {
+        Console.Write(Slot_i_Match[i]);
+    }
+    Console.WriteLine();
+    int[] Comb_Count_And_Length = new int[2];
+    int comb_count = 1;
+    int comb_length = 0;
+    int[] Reel_Match = new int[5];
+    for (int i = 3; i < Slot_i_Match.Length; i++)
+    {
+        int reel_match_count = 0;
+        for (int j = 0; j < 3; j++)
+        {
+            reel_match_count = +Slot_i_Match[i];
+            i++;
+        }
+        Reel_Match[i / 3] = reel_match_count;
+    }
+    for (int i = 1; i < Reel_Match.Length - 1; i++)
+    {
+        if (Reel_Match[i] == 0)
+        {
+            break;
+        }
+        comb_count = comb_count * Reel_Match[i];
+        comb_length++;
+    }
+    if (comb_count < 3)
+    {
+        comb_count = 0;
+        comb_length = 0;
+    }
+    Console.WriteLine(comb_count);
+    Console.WriteLine(comb_length);
 }
-
+Comb_Count_And_Length(Slot_1_Match);
+Comb_Count_And_Length(Slot_2_Match);
+Comb_Count_And_Length(Slot_3_Match);
 Slot_Characteristics Slot_Graphics(Slot_Characteristics Slot_With_Symbol)
 {
     //Slot's Sizing
