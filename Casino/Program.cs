@@ -52,6 +52,7 @@ int[] Matches_Count(string slot_i_symbol)
 int[] Slot_1_Match = Matches_Count(slot_1_symbol);
 int[] Slot_2_Match = Matches_Count(slot_2_symbol);
 int[] Slot_3_Match = Matches_Count(slot_3_symbol);
+
 void Comb_Count_And_Length(int[] Slot_i_Match)
 {
     for (int i = 0; i < Slot_i_Match.Length; i++)
@@ -61,28 +62,29 @@ void Comb_Count_And_Length(int[] Slot_i_Match)
     Console.WriteLine();
     int[] Comb_Count_And_Length = new int[2];
     int comb_count = 1;
-    int comb_length = 0;
+    int comb_length = 1;
     int[] Reel_Match = new int[5];
-    for (int i = 3; i < Slot_i_Match.Length; i++)
+    for (int i = 3; i < Slot_i_Match.Length; i += 3)
     {
         int reel_match_count = 0;
-        for (int j = 0; j < 3; j++)
-        {
-            reel_match_count = +Slot_i_Match[i];
-            i++;
-        }
-        Reel_Match[i / 3] = reel_match_count;
+        reel_match_count = Slot_i_Match[i] + Slot_i_Match[i + 1] + Slot_i_Match[i + 2];
+        Console.Write(reel_match_count);
     }
-    for (int i = 1; i < Reel_Match.Length - 1; i++)
+    Console.WriteLine();
+    Reel_Match[0] = 1;
+    for (int i = 0; i < Reel_Match.Length; i++)
     {
         if (Reel_Match[i] == 0)
         {
             break;
         }
-        comb_count = comb_count * Reel_Match[i];
-        comb_length++;
+        if (Reel_Match[i] != 0)
+        {
+            comb_count = comb_count * Reel_Match[i];
+            comb_length++;
+        }
     }
-    if (comb_count < 3)
+    if (comb_length < 3)
     {
         comb_count = 0;
         comb_length = 0;
