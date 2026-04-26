@@ -33,10 +33,11 @@ for (int i = 0; i < Generated_Symbols.Length; i++)
 string slot_1_symbol = Generated_Symbols[0];
 string slot_2_symbol = Generated_Symbols[1];
 string slot_3_symbol = Generated_Symbols[2];
-int[] Matches_Count(string slot_i_symbol)
+int[] Matches_Count(string slot_i_symbol, int slot_i_number)
 {
     int[] Slot_i_Match = new int[15];
     Array.Fill(Slot_i_Match, 0);
+    Slot_i_Match[slot_i_number] = 1;
     if (slot_i_symbol != "⚡")
     {
         for (int i = 3; i < Generated_Symbols.Length; i++)
@@ -49,9 +50,9 @@ int[] Matches_Count(string slot_i_symbol)
     }
     return Slot_i_Match;
 }
-int[] Slot_1_Match = Matches_Count(slot_1_symbol);
-int[] Slot_2_Match = Matches_Count(slot_2_symbol);
-int[] Slot_3_Match = Matches_Count(slot_3_symbol);
+int[] Slot_1_Match = Matches_Count(slot_1_symbol, 0);
+int[] Slot_2_Match = Matches_Count(slot_2_symbol, 1);
+int[] Slot_3_Match = Matches_Count(slot_3_symbol, 2);
 
 void Comb_Count_And_Length(int[] Slot_i_Match)
 {
@@ -60,37 +61,33 @@ void Comb_Count_And_Length(int[] Slot_i_Match)
         Console.Write(Slot_i_Match[i]);
     }
     Console.WriteLine();
-    int[] Comb_Count_And_Length = new int[2];
     int comb_count = 1;
-    int comb_length = 1;
+    int comb_length = 0;
     int[] Reel_Match = new int[5];
-    for (int i = 3; i < Slot_i_Match.Length; i += 3)
+    for (int i = 0; i < Slot_i_Match.Length; i += 3)
     {
         int reel_match_count = 0;
         reel_match_count = Slot_i_Match[i] + Slot_i_Match[i + 1] + Slot_i_Match[i + 2];
-        Console.Write(reel_match_count);
+        Reel_Match[i / 3] = reel_match_count;
+        Console.Write(Reel_Match[i / 3]);
     }
     Console.WriteLine();
-    Reel_Match[0] = 1;
     for (int i = 0; i < Reel_Match.Length; i++)
     {
         if (Reel_Match[i] == 0)
         {
             break;
         }
-        if (Reel_Match[i] != 0)
-        {
-            comb_count = comb_count * Reel_Match[i];
-            comb_length++;
-        }
+        comb_count *= Reel_Match[i];
+        comb_length++;
     }
     if (comb_length < 3)
     {
         comb_count = 0;
         comb_length = 0;
     }
-    Console.WriteLine(comb_count);
-    Console.WriteLine(comb_length);
+    Console.WriteLine($"comb count {comb_count}");
+    Console.WriteLine($"comb length {comb_length}");
 }
 Comb_Count_And_Length(Slot_1_Match);
 Comb_Count_And_Length(Slot_2_Match);
