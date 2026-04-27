@@ -30,68 +30,78 @@ for (int i = 0; i < Generated_Symbols.Length; i++)
     Generated_Symbols[i] = Symbols[rand.Next(0, Symbols.Length)];
 }
 
-string slot_1_symbol = Generated_Symbols[0];
-string slot_2_symbol = Generated_Symbols[1];
-string slot_3_symbol = Generated_Symbols[2];
-int[] Matches_Count(string slot_i_symbol, int slot_i_number)
+string slot_0_symbol = Generated_Symbols[0];
+string slot_1_symbol = Generated_Symbols[1];
+string slot_2_symbol = Generated_Symbols[2];
+int[] Matches_Countment(string slot_i_symbol, int slot_i_number)
 {
-    int[] Slot_i_Match = new int[15];
-    Array.Fill(Slot_i_Match, 0);
-    Slot_i_Match[slot_i_number] = 1;
+    int[] Slot_i_Matches = new int[15];
+    Array.Fill(Slot_i_Matches, 0);
+    Slot_i_Matches[slot_i_number] = 1;
     if (slot_i_symbol != "⚡")
     {
         for (int i = 3; i < Generated_Symbols.Length; i++)
         {
             if (Generated_Symbols[i] == slot_i_symbol || Generated_Symbols[i] == "⚡")
             {
-                Slot_i_Match[i] = 1;
+                Slot_i_Matches[i] = 1;
+            }
+            if (
+                i % 3 == 0
+                && Slot_i_Matches[i - 1] + Slot_i_Matches[i - 2] + Slot_i_Matches[i - 3] == 0
+            )
+            {
+                break;
             }
         }
     }
-    return Slot_i_Match;
+    return Slot_i_Matches;
 }
-int[] Slot_1_Match = Matches_Count(slot_1_symbol, 0);
-int[] Slot_2_Match = Matches_Count(slot_2_symbol, 1);
-int[] Slot_3_Match = Matches_Count(slot_3_symbol, 2);
+int[] Slot_0_Matches = Matches_Countment(slot_0_symbol, 0);
+int[] Slot_1_Matches = Matches_Countment(slot_1_symbol, 1);
+int[] Slot_2_Matches = Matches_Countment(slot_2_symbol, 2);
 
-void Comb_Count_And_Length(int[] Slot_i_Match)
+void Combs_And_Length_Countment(int[] Slot_i_Matches)
 {
-    for (int i = 0; i < Slot_i_Match.Length; i++)
+    int number_of_combs = 1;
+    int combs_length = 0;
+    int[] In_Reel_Matches = new int[5];
+    for (int i = 0; i < Slot_i_Matches.Length; i += 3)
     {
-        Console.Write(Slot_i_Match[i]);
+        int number_of_in_reel_matches = 0;
+        number_of_in_reel_matches =
+            Slot_i_Matches[i] + Slot_i_Matches[i + 1] + Slot_i_Matches[i + 2];
+        In_Reel_Matches[i / 3] = number_of_in_reel_matches;
     }
-    Console.WriteLine();
-    int comb_count = 1;
-    int comb_length = 0;
-    int[] Reel_Match = new int[5];
-    for (int i = 0; i < Slot_i_Match.Length; i += 3)
+    for (int i = 0; i < In_Reel_Matches.Length; i++)
     {
-        int reel_match_count = 0;
-        reel_match_count = Slot_i_Match[i] + Slot_i_Match[i + 1] + Slot_i_Match[i + 2];
-        Reel_Match[i / 3] = reel_match_count;
-        Console.Write(Reel_Match[i / 3]);
-    }
-    Console.WriteLine();
-    for (int i = 0; i < Reel_Match.Length; i++)
-    {
-        if (Reel_Match[i] == 0)
+        if (In_Reel_Matches[i] == 0)
         {
+            /*for (int j = i * 3; j < Slot_i_Matches.Length; j++)
+            {
+                Slot_i_Matches[j] = 0;
+            }*/
             break;
         }
-        comb_count *= Reel_Match[i];
-        comb_length++;
+        number_of_combs *= In_Reel_Matches[i];
+        combs_length++;
     }
-    if (comb_length < 3)
+    if (combs_length < 3)
     {
-        comb_count = 0;
-        comb_length = 0;
+        number_of_combs = 0;
+        combs_length = 0;
     }
-    Console.WriteLine($"comb count {comb_count}");
-    Console.WriteLine($"comb length {comb_length}");
+    Console.WriteLine($"comb count {number_of_combs}");
+    Console.WriteLine($"comb length {combs_length}");
+    for (int i = 0; i < Slot_i_Matches.Length; i++)
+    {
+        Console.Write(Slot_i_Matches[i]);
+    }
+    Console.WriteLine();
 }
-Comb_Count_And_Length(Slot_1_Match);
-Comb_Count_And_Length(Slot_2_Match);
-Comb_Count_And_Length(Slot_3_Match);
+Combs_And_Length_Countment(Slot_0_Matches);
+Combs_And_Length_Countment(Slot_1_Matches);
+Combs_And_Length_Countment(Slot_2_Matches);
 Slot_Characteristics Slot_Graphics(Slot_Characteristics Slot_With_Symbol)
 {
     //Slot's Sizing
@@ -384,16 +394,16 @@ void Background_Layer_1()
 
 void All_Frames()
 {
-    var Frame_1 = new Frame_Characteristics
+    var Frame_0 = new Frame_Characteristics
     {
         frame_x0 = 0,
         frame_y0 = 2,
         frame_width = 58,
         frame_hight = 19,
     };
-    Frame_Graphics(Frame_1);
+    Frame_Graphics(Frame_0);
 
-    var Frame_2 = new Frame_Characteristics
+    var Frame_1 = new Frame_Characteristics
     {
         frame_x0 = 34,
         frame_y0 = 0,
@@ -402,9 +412,9 @@ void All_Frames()
         frame_value_name = "BALANCE:",
         value = balance,
     };
-    Frame_Graphics(Frame_2);
+    Frame_Graphics(Frame_1);
 
-    var Frame_3 = new Frame_Characteristics
+    var Frame_2 = new Frame_Characteristics
     {
         frame_x0 = 34,
         frame_y0 = 20,
@@ -413,9 +423,9 @@ void All_Frames()
         frame_value_name = "WIN:",
         value = win,
     };
-    Frame_Graphics(Frame_3);
+    Frame_Graphics(Frame_2);
 
-    var Frame_4 = new Frame_Characteristics
+    var Frame_3 = new Frame_Characteristics
     {
         frame_x0 = 0,
         frame_y0 = 20,
@@ -424,145 +434,145 @@ void All_Frames()
         frame_value_name = "BET:",
         value = bet,
     };
-    Frame_Graphics(Frame_4);
+    Frame_Graphics(Frame_3);
 }
 
 void All_Slots()
 {
-    var Slot_1 = new Slot_Characteristics
+    var Slot_0 = new Slot_Characteristics
     {
         slot_x0 = 0,
         slot_y0 = 0,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[0],
     };
-    Slot_Graphics(Slot_1);
+    Slot_Graphics(Slot_0);
 
-    var Slot_2 = new Slot_Characteristics
+    var Slot_1 = new Slot_Characteristics
     {
         slot_x0 = 0,
         slot_y0 = 5,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[1],
     };
-    Slot_Graphics(Slot_2);
+    Slot_Graphics(Slot_1);
 
-    var Slot_3 = new Slot_Characteristics
+    var Slot_2 = new Slot_Characteristics
     {
         slot_x0 = 0,
         slot_y0 = 10,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[2],
     };
-    Slot_Graphics(Slot_3);
+    Slot_Graphics(Slot_2);
 
-    var Slot_4 = new Slot_Characteristics
+    var Slot_3 = new Slot_Characteristics
     {
         slot_x0 = 11,
         slot_y0 = 0,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[3],
     };
-    Slot_Graphics(Slot_4);
+    Slot_Graphics(Slot_3);
 
-    var Slot_5 = new Slot_Characteristics
+    var Slot_4 = new Slot_Characteristics
     {
         slot_x0 = 11,
         slot_y0 = 5,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[4],
     };
-    Slot_Graphics(Slot_5);
+    Slot_Graphics(Slot_4);
 
-    var Slot_6 = new Slot_Characteristics
+    var Slot_5 = new Slot_Characteristics
     {
         slot_x0 = 11,
         slot_y0 = 10,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[5],
     };
-    Slot_Graphics(Slot_6);
+    Slot_Graphics(Slot_5);
 
-    var Slot_7 = new Slot_Characteristics
+    var Slot_6 = new Slot_Characteristics
     {
         slot_x0 = 22,
         slot_y0 = 0,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[6],
     };
-    Slot_Graphics(Slot_7);
+    Slot_Graphics(Slot_6);
 
-    var Slot_8 = new Slot_Characteristics
+    var Slot_7 = new Slot_Characteristics
     {
         slot_x0 = 22,
         slot_y0 = 5,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[7],
     };
-    Slot_Graphics(Slot_8);
+    Slot_Graphics(Slot_7);
 
-    var Slot_9 = new Slot_Characteristics
+    var Slot_8 = new Slot_Characteristics
     {
         slot_x0 = 22,
         slot_y0 = 10,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[8],
     };
-    Slot_Graphics(Slot_9);
+    Slot_Graphics(Slot_8);
 
-    var Slot_10 = new Slot_Characteristics
+    var Slot_9 = new Slot_Characteristics
     {
         slot_x0 = 33,
         slot_y0 = 0,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[9],
     };
-    Slot_Graphics(Slot_10);
+    Slot_Graphics(Slot_9);
 
-    var Slot_11 = new Slot_Characteristics
+    var Slot_10 = new Slot_Characteristics
     {
         slot_x0 = 33,
         slot_y0 = 5,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[10],
     };
-    Slot_Graphics(Slot_11);
+    Slot_Graphics(Slot_10);
 
-    var Slot_12 = new Slot_Characteristics
+    var Slot_11 = new Slot_Characteristics
     {
         slot_x0 = 33,
         slot_y0 = 10,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[11],
     };
-    Slot_Graphics(Slot_12);
+    Slot_Graphics(Slot_11);
 
-    var Slot_13 = new Slot_Characteristics
+    var Slot_12 = new Slot_Characteristics
     {
         slot_x0 = 44,
         slot_y0 = 0,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[12],
     };
-    Slot_Graphics(Slot_13);
+    Slot_Graphics(Slot_12);
 
-    var Slot_14 = new Slot_Characteristics
+    var Slot_13 = new Slot_Characteristics
     {
         slot_x0 = 44,
         slot_y0 = 5,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[13],
     };
-    Slot_Graphics(Slot_14);
+    Slot_Graphics(Slot_13);
 
-    var Slot_15 = new Slot_Characteristics
+    var Slot_14 = new Slot_Characteristics
     {
         slot_x0 = 44,
         slot_y0 = 10,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[14],
     };
-    Slot_Graphics(Slot_15);
+    Slot_Graphics(Slot_14);
 }
 
 void Output()
