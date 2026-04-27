@@ -42,16 +42,16 @@ int[] Matches_Countment(string slot_i_symbol, int slot_i_number)
     {
         for (int i = 3; i < Generated_Symbols.Length; i++)
         {
-            if (Generated_Symbols[i] == slot_i_symbol || Generated_Symbols[i] == "⚡")
-            {
-                Slot_i_Matches[i] = 1;
-            }
             if (
                 i % 3 == 0
                 && Slot_i_Matches[i - 1] + Slot_i_Matches[i - 2] + Slot_i_Matches[i - 3] == 0
             )
             {
                 break;
+            }
+            if (Generated_Symbols[i] == slot_i_symbol || Generated_Symbols[i] == "⚡")
+            {
+                Slot_i_Matches[i] = 1;
             }
         }
     }
