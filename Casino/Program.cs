@@ -23,17 +23,34 @@ string[] Wild_Symbol = { "", "⚡", "W", "I", "L", "D", "⚡", "" };
 string[] Generated_Symbols = new string[15];
 for (int i = 0; i < Generated_Symbols.Length; i++)
 {
-    Generated_Symbols[i] = Symbols[6];
+    Generated_Symbols[i] = Symbols[rand.Next(0, Symbols.Length)];
 }
 
-//rand.Next(0, Symbols.Length)
+Dictionary<string, double> Coefficient =
+    new()
+    {
+        { "🇯", 0.25 },
+        { "🇶", 0.25 },
+        { "🇰", 0.25 },
+        { "🇹", 0.25 },
+        { "🥝", 0.25 },
+        { "🍋", 0.25 },
+        { "🍒", 0.25 },
+        { "💎", 0.25 },
+        { "🔔", 0.25 },
+    };
+
+double balance = 0;
+long bet = 100;
+long win = 0;
 
 Combinations Combinations_Calculation(Combinations Slot_i_Combinations)
 {
-    Array.Fill(Slot_i_Combinations.Slot_Matches, 0);
-    Slot_i_Combinations.Slot_Matches[Slot_i_Combinations.slot_number] = 1;
     if (Slot_i_Combinations.slot_symbol != "⚡")
     {
+        Slot_i_Combinations.number_of_combs = 1;
+        Slot_i_Combinations.combs_length = 1;
+        Slot_i_Combinations.Slot_Matches[Slot_i_Combinations.slot_number] = 1;
         Slot_i_Combinations.In_Reel_Matches[0] = 1;
         for (int i = 3; i < Generated_Symbols.Length; i++)
         {
@@ -50,9 +67,13 @@ Combinations Combinations_Calculation(Combinations Slot_i_Combinations)
                     + Slot_i_Combinations.Slot_Matches[i - 1]
                     + Slot_i_Combinations.Slot_Matches[i - 2]
                     == 0
+                && Slot_i_Combinations.combs_length < 3
             )
             {
-                //Array.Fill(Slot_i_Combinations.Slot_Matches, 0);
+                Array.Fill(Slot_i_Combinations.In_Reel_Matches, 0);
+                Array.Fill(Slot_i_Combinations.Slot_Matches, 0);
+                Slot_i_Combinations.number_of_combs = 0;
+                Slot_i_Combinations.combs_length = 0;
                 break;
             }
             if (
@@ -63,12 +84,13 @@ Combinations Combinations_Calculation(Combinations Slot_i_Combinations)
                     != 0
             )
             {
-                Slot_i_Combinations.number_of_combs =
+                Slot_i_Combinations.In_Reel_Matches[((i + 1) / 3) - 1] =
                     Slot_i_Combinations.Slot_Matches[i]
                     + Slot_i_Combinations.Slot_Matches[i - 1]
                     + Slot_i_Combinations.Slot_Matches[i - 2];
-                Slot_i_Combinations.In_Reel_Matches[((i + 1) / 3) - 1] =
-                    Slot_i_Combinations.number_of_combs;
+                Slot_i_Combinations.number_of_combs *= Slot_i_Combinations.In_Reel_Matches[
+                    ((i + 1) / 3) - 1
+                ];
                 Slot_i_Combinations.combs_length++;
             }
         }
@@ -81,9 +103,7 @@ Combinations Combinations_Calculation(Combinations Slot_i_Combinations)
     Console.WriteLine($"_{Slot_i_Combinations.number_of_combs}");
     return Slot_i_Combinations;
 }
-double balance = 0;
-long bet = 100;
-long win = 10000;
+
 Slot_Characteristics Slot_Graphics(Slot_Characteristics Slot_With_Symbol)
 {
     //Slot's Sizing
@@ -563,8 +583,8 @@ void All_Combs()
         slot_symbol = Generated_Symbols[0],
         slot_number = 0,
         Slot_Matches = new int[15],
-        number_of_combs = 1,
-        combs_length = 1,
+        number_of_combs = 0,
+        combs_length = 0,
         In_Reel_Matches = new int[5],
     };
     Combinations_Calculation(Slot_0_Combinations);
@@ -574,8 +594,8 @@ void All_Combs()
         slot_symbol = Generated_Symbols[1],
         slot_number = 1,
         Slot_Matches = new int[15],
-        number_of_combs = 1,
-        combs_length = 1,
+        number_of_combs = 0,
+        combs_length = 0,
         In_Reel_Matches = new int[5],
     };
     Combinations_Calculation(Slot_1_Combinations);
@@ -585,8 +605,8 @@ void All_Combs()
         slot_symbol = Generated_Symbols[2],
         slot_number = 2,
         Slot_Matches = new int[15],
-        number_of_combs = 1,
-        combs_length = 1,
+        number_of_combs = 0,
+        combs_length = 0,
         In_Reel_Matches = new int[5],
     };
     Combinations_Calculation(Slot_2_Combinations);
