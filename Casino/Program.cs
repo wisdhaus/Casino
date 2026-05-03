@@ -38,11 +38,12 @@ Dictionary<string, int> Coefficient =
         { "🍒", 5 },
         { "💎", 6 },
         { "🔔", 10 },
+        { "⚡", 0 },
     };
 
 double balance = 0;
-long bet = 100;
-long win = 0;
+double bet = 1;
+double win = 0;
 
 Combinations Combinations_Calculation(Combinations Slot_i_Combinations)
 {
@@ -115,21 +116,20 @@ Combinations Combinations_Calculation(Combinations Slot_i_Combinations)
     }
     Console.Write($"_{Slot_i_Combinations.combs_length}");
     Console.WriteLine($"_{Slot_i_Combinations.number_of_combs}");
-    /*
-    int coefficient = 0;
-    if (Coefficient.ContainsKey(Slot_i_Combinations.slot_symbol))
-    {
-        coefficient = Coefficient[Slot_i_Combinations.slot_symbol];
-    }
+    int coef;
+    coef = Coefficient[Slot_i_Combinations.slot_symbol];
     int length = Slot_i_Combinations.combs_length;
     int combs = Slot_i_Combinations.number_of_combs;
-    win = bet * combs * coefficient * ((10 * length ^ 2 - 69 * length ^ 2 + 119 * length) / 120);
+    win =
+        coef
+        * bet
+        * combs
+        * ((10 * Math.Pow(length, 3) - 69 * Math.Pow(length, 2) + 119 * length) / 120);
     balance -= bet;
     balance += win;
-    Console.WriteLine(win);
-    Console.WriteLine(balance);
-    Console.WriteLine(bet);
-    */
+    Console.WriteLine($"win: {win}");
+    Console.WriteLine($"balance: {balance}");
+    Console.WriteLine($"bet: {bet}");
     return Slot_i_Combinations;
 }
 
