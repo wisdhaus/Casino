@@ -684,23 +684,27 @@ void Title()
     }
 }
 
-bool first_launch = true;
+bool action = true;
+
 Symbols_Generation();
+
 while (true)
 {
-    if (first_launch == false)
+    while (action == false)
     {
         ConsoleKeyInfo key = Console.ReadKey();
         if (key.Key == ConsoleKey.Enter)
         {
             Symbols_Generation();
             All_Combs();
+            action = true;
         }
         else if (key.Key == ConsoleKey.RightArrow)
         {
             if (bet_number < Bet_List.Length - 1)
             {
                 bet_number++;
+                action = true;
             }
         }
         else if (key.Key == ConsoleKey.LeftArrow)
@@ -708,6 +712,7 @@ while (true)
             if (bet_number > 0)
             {
                 bet_number--;
+                action = true;
             }
         }
         bet = Bet_List[bet_number];
@@ -718,7 +723,7 @@ while (true)
     All_Frames();
     Console.Clear();
     Output();
-    first_launch = false;
+    action = false;
 }
 
 struct Slot_Characteristics
