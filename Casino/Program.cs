@@ -21,9 +21,12 @@ string[] Symbols = { "🇯", "🇶", "🇰", "🇹", "🥝", "🍋", "🍒", "�
 string[] Wild_Symbol = { "", "⚡", "W", "I", "L", "D", "⚡", "" };
 
 string[] Generated_Symbols = new string[15];
-for (int i = 0; i < Generated_Symbols.Length; i++)
+void Symbols_Generation()
 {
-    Generated_Symbols[i] = Symbols[rand.Next(0, Symbols.Length)];
+    for (int i = 0; i < Generated_Symbols.Length; i++)
+    {
+        Generated_Symbols[i] = Symbols[rand.Next(0, Symbols.Length)];
+    }
 }
 
 Dictionary<string, int> Coefficient =
@@ -41,9 +44,14 @@ Dictionary<string, int> Coefficient =
         { "⚡", 0 },
     };
 
-double balance = 0;
-double bet = 1;
-double win = 0;
+int[] Comb_Lenght_Coef = { 0, 0, 0, 5, 10, 100 };
+
+int[] Bet_List = { 20, 40, 100, 200, 500, 1000, 2000, 5000, 10000 };
+int bet_number = 0;
+
+long balance = 0;
+long bet = Bet_List[bet_number];
+long win = 0;
 
 Combinations Combinations_Calculation(Combinations Slot_i_Combinations)
 {
@@ -110,26 +118,17 @@ Combinations Combinations_Calculation(Combinations Slot_i_Combinations)
             }
         }
     }
-    for (int i = 0; i < Slot_i_Combinations.In_Reel_Matches.Length; i++)
+    /*for (int i = 0; i < Slot_i_Combinations.In_Reel_Matches.Length; i++)
     {
         Console.Write(Slot_i_Combinations.In_Reel_Matches[i]);
     }
     Console.Write($"_{Slot_i_Combinations.combs_length}");
-    Console.WriteLine($"_{Slot_i_Combinations.number_of_combs}");
-    int coef;
-    coef = Coefficient[Slot_i_Combinations.slot_symbol];
+    Console.WriteLine($"_{Slot_i_Combinations.number_of_combs}");*/
+    int coef = Coefficient[Slot_i_Combinations.slot_symbol];
     int length = Slot_i_Combinations.combs_length;
     int combs = Slot_i_Combinations.number_of_combs;
-    win =
-        coef
-        * bet
-        * combs
-        * ((10 * Math.Pow(length, 3) - 69 * Math.Pow(length, 2) + 119 * length) / 120);
-    balance -= bet;
-    balance += win;
-    Console.WriteLine($"win: {win}");
-    Console.WriteLine($"balance: {balance}");
-    Console.WriteLine($"bet: {bet}");
+    long slot_i_combinations_win = coef * bet * combs * Comb_Lenght_Coef[length] / 100;
+    win += slot_i_combinations_win;
     return Slot_i_Combinations;
 }
 
@@ -686,12 +685,21 @@ void Title()
     }
 }
 
-Background_Layer_1();
-Title();
-All_Frames();
-All_Slots();
-All_Combs();
-Output();
+while (true)
+{
+    Console.Clear();
+    Symbols_Generation();
+    win = 0;
+    All_Combs();
+    balance -= bet;
+    balance += win;
+    Background_Layer_1();
+    Title();
+    All_Slots();
+    All_Frames();
+    Output();
+    ConsoleKeyInfo key = Console.ReadKey(true);
+}
 
 struct Slot_Characteristics
 {
