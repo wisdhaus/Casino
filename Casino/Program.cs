@@ -118,12 +118,6 @@ Combinations Combinations_Calculation(Combinations Slot_i_Combinations)
             }
         }
     }
-    /*for (int i = 0; i < Slot_i_Combinations.In_Reel_Matches.Length; i++)
-    {
-        Console.Write(Slot_i_Combinations.In_Reel_Matches[i]);
-    }
-    Console.Write($"_{Slot_i_Combinations.combs_length}");
-    Console.WriteLine($"_{Slot_i_Combinations.number_of_combs}");*/
     int coef = Coefficient[Slot_i_Combinations.slot_symbol];
     int length = Slot_i_Combinations.combs_length;
     int combs = Slot_i_Combinations.number_of_combs;
@@ -606,6 +600,9 @@ void All_Slots()
 }
 void All_Combs()
 {
+    win = 0;
+    balance -= bet;
+
     var Slot_0_Combinations = new Combinations
     {
         slot_symbol = Generated_Symbols[0],
@@ -638,6 +635,8 @@ void All_Combs()
         In_Reel_Matches = new int[5],
     };
     Combinations_Calculation(Slot_2_Combinations);
+
+    balance += win;
 }
 
 void Output()
@@ -685,20 +684,41 @@ void Title()
     }
 }
 
+bool first_launch = true;
+Symbols_Generation();
 while (true)
 {
-    Console.Clear();
-    Symbols_Generation();
-    win = 0;
-    All_Combs();
-    balance -= bet;
-    balance += win;
+    if (first_launch == false)
+    {
+        ConsoleKeyInfo key = Console.ReadKey();
+        if (key.Key == ConsoleKey.Enter)
+        {
+            Symbols_Generation();
+            All_Combs();
+        }
+        else if (key.Key == ConsoleKey.RightArrow)
+        {
+            if (bet_number < Bet_List.Length - 1)
+            {
+                bet_number++;
+            }
+        }
+        else if (key.Key == ConsoleKey.LeftArrow)
+        {
+            if (bet_number > 0)
+            {
+                bet_number--;
+            }
+        }
+        bet = Bet_List[bet_number];
+    }
     Background_Layer_1();
     Title();
     All_Slots();
     All_Frames();
+    Console.Clear();
     Output();
-    ConsoleKeyInfo key = Console.ReadKey(true);
+    first_launch = false;
 }
 
 struct Slot_Characteristics
