@@ -49,6 +49,9 @@ int[] Comb_Lenght_Coef = { 0, 0, 0, 5, 10, 100 };
 int[] Bet_List = { 20, 40, 100, 200, 500, 1000, 2000, 5000, 10000 };
 int bet_number = 0;
 
+int[] All_Slot_Matches = new int[Generated_Symbols.Length];
+Array.Fill(All_Slot_Matches, 0);
+
 long balance = 0;
 long bet = Bet_List[bet_number];
 long win = 0;
@@ -118,6 +121,10 @@ Combinations Combinations_Calculation(Combinations Slot_i_Combinations)
             }
         }
     }
+    for (int i = 0; i < Slot_i_Combinations.Slot_Matches.Length; i++)
+    {
+        All_Slot_Matches[i] = All_Slot_Matches[i] | Slot_i_Combinations.Slot_Matches[i];
+    }
     int coef = Coefficient[Slot_i_Combinations.slot_symbol];
     int length = Slot_i_Combinations.combs_length;
     int combs = Slot_i_Combinations.number_of_combs;
@@ -153,7 +160,15 @@ Slot_Characteristics Slot_Graphics(Slot_Characteristics Slot_With_Symbol)
 
     //Slot's Color
     Slot_With_Symbol.Slot_Elements_Color = new string[slot_square];
-    Array.Fill(Slot_With_Symbol.Slot_Elements_Color, "Cyan");
+
+    if (All_Slot_Matches[Slot_With_Symbol.slot_number] == 1)
+    {
+        Array.Fill(Slot_With_Symbol.Slot_Elements_Color, "DarkYellow");
+    }
+    else if (All_Slot_Matches[Slot_With_Symbol.slot_number] == 0)
+    {
+        Array.Fill(Slot_With_Symbol.Slot_Elements_Color, "Cyan");
+    }
     if (Slot_With_Symbol.slot_symbol != "⚡")
     {
         Slot_With_Symbol.Slot_Elements_Color[Slot_With_Symbol.Slot_Elements_Color.Length / 2 - 1] =
@@ -469,6 +484,7 @@ void All_Slots()
         slot_y0 = 0,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[0],
+        slot_number = 0,
     };
     Slot_Graphics(Slot_0);
 
@@ -478,6 +494,7 @@ void All_Slots()
         slot_y0 = 5,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[1],
+        slot_number = 1,
     };
     Slot_Graphics(Slot_1);
 
@@ -487,6 +504,7 @@ void All_Slots()
         slot_y0 = 10,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[2],
+        slot_number = 2,
     };
     Slot_Graphics(Slot_2);
 
@@ -496,6 +514,7 @@ void All_Slots()
         slot_y0 = 0,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[3],
+        slot_number = 3,
     };
     Slot_Graphics(Slot_3);
 
@@ -505,6 +524,7 @@ void All_Slots()
         slot_y0 = 5,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[4],
+        slot_number = 4,
     };
     Slot_Graphics(Slot_4);
 
@@ -514,6 +534,7 @@ void All_Slots()
         slot_y0 = 10,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[5],
+        slot_number = 5,
     };
     Slot_Graphics(Slot_5);
 
@@ -523,6 +544,7 @@ void All_Slots()
         slot_y0 = 0,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[6],
+        slot_number = 6,
     };
     Slot_Graphics(Slot_6);
 
@@ -532,6 +554,7 @@ void All_Slots()
         slot_y0 = 5,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[7],
+        slot_number = 7,
     };
     Slot_Graphics(Slot_7);
 
@@ -541,6 +564,7 @@ void All_Slots()
         slot_y0 = 10,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[8],
+        slot_number = 8,
     };
     Slot_Graphics(Slot_8);
 
@@ -550,6 +574,7 @@ void All_Slots()
         slot_y0 = 0,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[9],
+        slot_number = 9,
     };
     Slot_Graphics(Slot_9);
 
@@ -559,6 +584,7 @@ void All_Slots()
         slot_y0 = 5,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[10],
+        slot_number = 10,
     };
     Slot_Graphics(Slot_10);
 
@@ -568,6 +594,7 @@ void All_Slots()
         slot_y0 = 10,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[11],
+        slot_number = 11,
     };
     Slot_Graphics(Slot_11);
 
@@ -577,6 +604,7 @@ void All_Slots()
         slot_y0 = 0,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[12],
+        slot_number = 12,
     };
     Slot_Graphics(Slot_12);
 
@@ -586,6 +614,7 @@ void All_Slots()
         slot_y0 = 5,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[13],
+        slot_number = 13,
     };
     Slot_Graphics(Slot_13);
 
@@ -595,6 +624,7 @@ void All_Slots()
         slot_y0 = 10,
         slot_scale = 1,
         slot_symbol = Generated_Symbols[14],
+        slot_number = 14,
     };
     Slot_Graphics(Slot_14);
 }
@@ -657,6 +687,8 @@ void Output()
                 Console.ForegroundColor = ConsoleColor.White;
             if (Matrix_Foreground_Color[i] == "Black")
                 Console.ForegroundColor = ConsoleColor.Black;
+            if (Matrix_Foreground_Color[i] == "DarkYellow")
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
 
             //Background
             if (Matrix_Background_Color[i] == "Black")
@@ -690,6 +722,7 @@ Symbols_Generation();
 
 while (true)
 {
+    Array.Fill(All_Slot_Matches, 0);
     while (action == false)
     {
         ConsoleKeyInfo key = Console.ReadKey();
@@ -736,6 +769,7 @@ struct Slot_Characteristics
     public int[] Slot_X;
     public int[] Slot_Y;
     public string[] Slot_Elements_Color;
+    public int slot_number;
 }
 
 struct Frame_Characteristics
